@@ -1,0 +1,13 @@
+Flask==2.3.3
+requests
+urllib3==1.26.15
+debugpy # Required for debugging.
+google-generativeai
+google-cloud-storage
+google-cloud-vision
+chromadb
+pathlib
+pypdf
+python-dotenv
+pyrebase4
+google-cloud-logging

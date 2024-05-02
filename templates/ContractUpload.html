@@ -1,0 +1,151 @@
+{% extends 'Header.html' %} {% block title %}Contract Upload{% endblock %}
+{%block content %}
+<body>
+  <div class="" style="margin-left: 20px; margin-top: 20px">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="row">
+          Select a contract from below to upload files as sub contract. If no
+          contract is selected, the uploaded files are considered as new
+          contracts
+          <br /><br />
+          <div>
+            <b>Selected Path :</b>
+            <span id="selectedPath" style="color: rgb(230, 102, 144)"></span>
+          </div>
+          <br />
+          <div>
+            <button
+              id="clearBtn"
+              class="btn-primary"
+              style="float: right; height: 38px !important"
+              onmouseout="this.style.backgroundColor='#47b2e4'"
+            >
+              Clear
+            </button>
+          </div>
+        </div>
+        <div id="defaultTree"></div>
+      </div>
+      <div class="col-md-6">
+        <!-- <div class="mb-3" style="display: flex; flex-direction: row-reverse">
+          <button
+            id="updateRagBtn"
+            class="btn-primary"
+            style="float: right; cursor: pointer"
+            onclick="OcrExtractAndRagUpdate()"
+          >
+            Update RAG Vector database
+          </button>
+        </div> -->
+        <div class="row">
+          <input type="file" id="fileupload" name="UploadFiles" />
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+<!-- File Upload -->
+<script>
+  var uploadBtn = null;
+  var selectedPath = "";
+  var treeData = {{ files_list | tojson }};
+  var uploadedFiles = [];
+  console.log(treeData);
+
+
+    var button = new ej.buttons.Button({
+      cssClass: `e-primary`,
+    });
+
+    // Render initialized button.
+    button.appendTo("#clearBtn");
+    document.getElementById("clearBtn").addEventListener("click", (e) => {
+      document.getElementById("selectedPath").innerText = "";
+      selectedPath = "";
+      uploadObj.asyncSettings.saveUrl = "/uploadfiles?selectedPath=" +selectedPath;
+      treeObj.selectedNodes = [];
+    });
+  var treeObj = new ej.navigations.TreeView({
+    nodeSelected: OnSelect,
+    fields: {
+      dataSource: treeData,
+      id: "id",
+      text: "name",
+      parentID: "parentId",
+      hasChildren: "hasChild",
+      tooltip: "name",
+    },
+  });
+  treeObj.appendTo("#defaultTree");
+  function OnSelect(args) {
+    let contractName = args.nodeData.text;
+    let contractPath = treeData.filter(x=>x.id==args.nodeData.id)[0].path;
+    selectedPath = contractPath.substring(0,contractPath.lastIndexOf('/')+1)
+    document.getElementById("selectedPath").innerText = selectedPath;
+    uploadObj.asyncSettings.saveUrl = "/uploadfiles?selectedPath=" + selectedPath
+  }
+  var uploadObj = new ej.inputs.Uploader({
+    autoUpload: false,
+    // multiple: true,
+    allowedExtensions: ".pdf", // Define allowed file extensions
+    asyncSettings: {
+      saveUrl: "/uploadfiles?selectedPath=" + selectedPath,
+    },
+    directoryUpload: false, // Enable directory upload
+    success:function (args)
+    {
+      uploadedFiles.push(selectedPath+args.file.name);
+      console.log(uploadedFiles);
+      OcrExtract();
+    },
+  });
+  uploadObj.appendTo("#fileupload");
+
+  function OcrExtract() {
+    Swal.fire({
+      title: 'extracting text..please wait',
+      allowOutsideClick: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
+    });
+    fetch('/ocrextract',{
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        file_paths: uploadedFiles,
+    })})
+    .then(res=>{
+      if(res.ok)
+      {
+        return res.text();
+      }
+      throw new Error(res.statusText);
+    })
+    .then(data=>{
+      Swal.close();
+      // Swal.fire({
+      //   title: 'updating RAG vector database..please wait',
+      //   allowOutsideClick: false,
+      //   didOpen: () => {
+      //       Swal.showLoading();
+      //   }
+      // });
+      // fetch('/createragdb')
+      // .then(res=>res.text())
+      // .then(dara=>{
+      //   Swal.close();
+      // })
+    }).catch(err=>{
+      Swal.close();
+      Swal.fire({
+        text: err,
+        icon: "error"});
+      });
+  }
+</script>
+<!-- TreeView -->
+<script></script>
+
+{% endblock %}

@@ -1,0 +1,754 @@
+{% extends 'Header.html' %} {% block title %}Contract Highlights{% endblock %}
+{%block content %}
+<link href="/static/chat.css" rel="stylesheet" type="text/css" />
+<style>
+  h2 {
+    font-size: large;
+  }
+  .e-radio-wrapper {
+    margin-top: 18px;
+  }
+
+  li {
+    list-style: none;
+  }
+  .e-list-header {
+    display: none !important;
+  }
+  .e-card-content {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+  .custom {
+    font-size: 14px;
+  }
+  .timeline {
+    width: 100%;
+    max-width: 800px;
+    background: #fff;
+    padding: 2px 25px;
+    position: relative;
+    margin-left: -20px;
+    /* box-shadow: 0.5rem 0.5rem 2rem 0 rgba(0, 0, 0, 0.2); */
+  }
+  .timeline:before {
+    content: "";
+    position: absolute;
+    top: 0px;
+    left: calc(26% + 15px);
+    bottom: 0px;
+    width: 4px;
+    background: #ddd;
+  }
+  .timeline:after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+  .entry {
+    clear: both;
+    text-align: left;
+    position: relative;
+  }
+  .entry .title {
+    margin-bottom: 0.5em;
+    float: left;
+    width: 26%;
+    padding-right: 8px;
+    text-align: right;
+    position: relative;
+  }
+  .entry .title:before {
+    content: "";
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border: 4px solid salmon;
+    background-color: #fff;
+    border-radius: 100%;
+    top: 15%;
+    right: -8px;
+    z-index: 99;
+  }
+  .entry .title h4 {
+    margin: 0;
+    font-size: 100%;
+  }
+  .entry .title p {
+    margin: 0;
+    font-size: 100%;
+  }
+  .entry .body {
+    margin: 0 0 3em;
+    float: right;
+    width: 70%;
+    /* padding-left: 30px; */
+  }
+  .entry .body p {
+    line-height: 1.4em;
+    font-size: 100%;
+  }
+  .entry .body p:first-child {
+    margin-top: 0;
+    font-weight: 400;
+  }
+  .entry .body ul {
+    font-size: 100%;
+    color: #aaa;
+    padding-left: 0;
+    list-style-type: none;
+  }
+  .entry .body ul li:before {
+    content: "–";
+    margin-right: 0.5em;
+  }
+</style>
+<div id="sidebar-wrapper" class="control-section">
+  <!--main content declaration -->
+  <div class="maincontent" style="height: 92vh">
+    <div id="defaultTab" style="display: none"></div>
+    <div class="content">
+      <div id="highlights" style="display: none; width: fit-content">
+        <div class="row" id="contractHighlights" style="margin-top: 10px">
+          <div class="col-md-4">
+            <div class="row"><h5>Timeline View</h5></div>
+            <div class="row" style="max-height: 92vh; overflow-y: auto">
+              <div class="timeline" id="timelineView"></div>
+            </div>
+          </div>
+          <div
+            class="col-md-8"
+            style="max-height: 92vh; overflow-y: auto; width: 49%"
+          >
+            <div class="row card-layout" id="kpirow">
+              <div class="col-md-4">
+                <div
+                  tabindex="0"
+                  class="e-card"
+                  style="background-color: powderblue; text-align: center"
+                >
+                  <div class="e-card-header">
+                    <div class="e-card-header-caption">
+                      <div
+                        class="e-card-header-title"
+                        style="font-size: 16px; font-weight: bolder"
+                      >
+                        Annual Contract Value
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-card-content" id="acvValue"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  tabindex="0"
+                  class="e-card"
+                  style="background-color: darksalmon; text-align: center"
+                >
+                  <div class="e-card-header">
+                    <div class="e-card-header-caption">
+                      <div
+                        class="e-card-header-title"
+                        style="font-size: 16px; font-weight: bolder"
+                      >
+                        Rebate Amount
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-card-content" id="rbValue"></div>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div
+                  tabindex="0"
+                  class="e-card"
+                  style="background-color: palegoldenrod; text-align: center"
+                >
+                  <div class="e-card-header">
+                    <div class="e-card-header-caption">
+                      <div
+                        class="e-card-header-title"
+                        style="font-size: 16px; font-weight: bolder"
+                      >
+                        Discount
+                      </div>
+                    </div>
+                  </div>
+                  <div class="e-card-content" id="discValue"></div>
+                </div>
+              </div>
+            </div>
+            <br />
+            <div class="row card-layout" id="vendorRow"></div>
+            <br />
+            <div id="highlightsColumn"></div>
+          </div>
+        </div>
+      </div>
+      <div id="query" style="display: none; width: 80vw" class="ms-3">
+        <div id="List" tabindex="1"></div>
+        <div style="margin-top: 5px">
+          <input id="name" type="text" />
+          <button
+            id="btn"
+            class="btn-primary"
+            style="float: right; height: 38px !important"
+            onmouseout="this.style.backgroundColor='#47b2e4'"
+          >
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--end of main content declaration -->
+</div>
+<!-- sidebar element declaration -->
+<aside id="defaultSidebar" class="default-sidebar">
+  <!--TreeView control declaration-->
+  <!-- <input id="resSearch"></input> -->
+  <div id="defaultTree" style="margin-left: -24px"></div>
+</aside>
+
+<!-- Sidebar-->
+<script>
+  var treeData = {{ files_list | tojson }};
+  var converter = new showdown.Converter({extensions: ['table']});
+  let contractHighlightsEle = document.getElementById("defaultTab");
+  let highlightsColumn = document.getElementById("highlightsColumn");
+  let vendorRow = document.getElementById("vendorRow");
+  var file_paths = [];
+
+  let revenues ={
+    "1":{
+      "AnnualContractValue":"$50500000",
+      // "Rebate":"$125000",
+      // "Discount":"$15000"
+    },
+    "2":{
+      "AnnualContractValue":"$30000000",
+      // "Rebate":"$105000",
+      // "Discount":"$12000"
+    }
+  };
+
+  var sideObj = new ej.navigations.Sidebar({
+    width: "260px",
+    target: ".maincontent",
+    position: "Left",
+  });
+  sideObj.appendTo("#defaultSidebar");
+  // var inputObj = new ej.inputs.TextBox({
+  //       placeholder: "Search..."
+  //   });
+  //   inputObj.appendTo("#resSearch");
+  console.log(treeData);
+  var treeObj = new ej.navigations.TreeView({
+    nodeSelecting: BeforeSelect,
+    nodeSelected: OnSelect,
+    fields: {
+      dataSource: treeData,
+      id: "id",
+      text: "name",
+      parentID: "parentId",
+      hasChildren: "hasChild",
+      tooltip: "name",
+    },
+  });
+  treeObj.appendTo("#defaultTree");
+  // function BeforeSelect(args) {
+  //   if (args.nodeData.text == "Favorites" || args.nodeData.text == "John") {
+  //     args.cancel = true;
+  //   }
+  // }
+  function getAllChildContracts(contractId, data) {
+    const children = [];
+
+    // Find all children of the given contractId
+    const directChildren = data.filter(contract => contract.parentId === contractId);
+
+    // Recursively find children of children
+    directChildren.forEach(child => {
+        children.push(child);
+        children.push(...getAllChildContracts(child.id, data));
+    });
+
+    return children;
+  }
+  function BeforeSelect(args) {
+
+    if (args.nodeData.parentID != null) {
+        args.cancel = true;
+    }
+  }
+  function OnSelect(args) {
+    let contractName = args.nodeData.text;
+    let contractPath = treeData.filter(x=>x.id==args.nodeData.id)[0].path;
+    let childContracts = getAllChildContracts(args.nodeData.id,treeData);
+    file_paths = [];
+    file_paths.push(contractPath)
+    childContracts.forEach(c => {
+      file_paths.push(c.path);
+    });
+    Swal.fire({
+      title: 'getting contract highlights..please wait',
+      allowOutsideClick: false,
+      didOpen: () => {
+          Swal.showLoading();
+      }
+    });
+    vendorRow.innerHTML="";
+    highlightsColumn.innerHTML="";
+    let reqRevObj = revenues[args.nodeData.id];
+      if(reqRevObj == undefined){
+        reqRevObj = revenues["1"];
+      }
+    // contractHighlightsEle.style.display="";
+    // Swal.close();
+    fetch('/getcontracthighlights?acv='+reqRevObj.AnnualContractValue,{
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        file_paths: file_paths,
+    })})
+    .then((res) => {
+      if(res.ok)
+      {
+        return res.json();
+      }
+      throw new Error(res.statusText);
+    })
+    .then(data=>{
+      Swal.close();
+      let timelineData = JSON.parse(data.timeline.match(/\[([^]+)\]/g)[0]);
+      generateTimeline(timelineData);
+      let vendorCompanyDetails = JSON.parse(data.vendor_company.match(/\{([^]+)\}/g)[0]);
+      let colLength = parseInt(12/(Object.keys(vendorCompanyDetails).length-1))
+      let finalRevObj = vendorCompanyDetails["Revenue"];
+      document.getElementById("acvValue").innerText = finalRevObj.AnnualContractValue;
+      document.getElementById("rbValue").innerText = finalRevObj.Rebate;
+      document.getElementById("discValue").innerText = finalRevObj.Discount;
+      Object.keys(vendorCompanyDetails).forEach(k=>{
+        if(k!="Revenue"){
+          let cardObj = vendorCompanyDetails[k];
+          let cardTblHtml = "";
+          Object.keys(cardObj).forEach(p=>{
+            let tr = `
+              <tr>
+                <td>${p.replace(k,"")}</td>
+                <td> : </td>
+                <td>${cardObj[p]}</td>
+              </tr>
+            `;
+            cardTblHtml +=  tr;
+          });
+          let cardHtml = `
+            <div class="col-md-${colLength}">
+              <!-- Basic Card Layout  -->
+              <div tabindex="0" class="e-card" style="border-top: 3px solid #47b2e4;border-bottom: 3px solid #47b2e4;">
+                <div class="e-card-header">
+                  <div class="e-card-header-caption">
+                    <div class="e-card-header-title">${k} Details</div>
+                  </div>
+                </div>
+                <div
+                  class="e-card-content"
+                  style="height: 90px; overflow-y: auto"
+                >
+                  <div class="row custom">
+                    <table
+                      class="table table-borderless table-sm"
+                      style="margin-bottom: 0px"
+                    >
+                      ${cardTblHtml}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          `;
+          vendorRow.insertAdjacentHTML("beforeend", cardHtml);
+        }
+
+      });
+      var tables = JSON.parse(data.tables.match(/\{([^]+)\}/g)[0]);
+      var products = tables["Products"];
+      if(products.length > 0){
+        var products_text = data.ProductsNotes;
+        var products_notes_html = "";
+        if(products_text != undefined){
+          products_notes_html = converter.makeHtml(products_text.trim());
+        }
+        var products_html = "";
+        products.forEach(p=>{
+          let tr = `
+            <tr>
+              <td>${p.ProductName}</td>
+              <td>${p.Price}</td>
+              <td>${p.Discount}</td>
+              <td>${p.Currency}</td>
+            </tr>
+          `;
+          products_html +=  tr;
+        });
+        var final_products_html = `
+          <div class="row mt-2 card-layout">
+            <div class="e-card">
+              <div class="e-card-content" style="color:black">
+                <h2>Vendor Product and Pricing</h2>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Product</th>
+                      <th>Price</th>
+                      <th>Discount</th>
+                      <th>Currency</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    ${products_html}
+                  </tbody>
+                </table>
+                <br/>
+                ${products_notes_html}
+              </div>
+            </div>
+          </div>
+        `;
+        highlightsColumn.insertAdjacentHTML("beforeend", final_products_html);
+      }
+      var outofscopecharges = tables["OutOfScope"]
+      if(outofscopecharges.length > 0){
+        var outofscopecharges_text = tables.OutOfScopeNotes;
+        var outofscopecharges_notes_html = "";
+        if(outofscopecharges_text != undefined){
+          outofscopecharges_notes_html = converter.makeHtml(outofscopecharges_text.trim());
+        }
+
+        var outofscopecharges_html = "";
+        outofscopecharges.forEach(p=>{
+          let tr = `
+            <tr>
+              <td>${p.Level}</td>
+              <td>${p.Role}</td>
+              <td>${p.StandardDailyRate}</td>
+              <td>${p.Discount}</td>
+            </tr>
+          `;
+          outofscopecharges_html += tr;
+        });
+        var final_outofscopecharges_html = `
+          <div class="row mt-2 card-layout">
+            <div class="e-card">
+              <div class="e-card-content" style="color:black">
+                <h2>Professional or Managed Services Charges</h2>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>Level</th>
+                      <th>Role</th>
+                      <th>StandardDailyRate</th>
+                      <th>Discount</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    ${outofscopecharges_html}
+                  </tbody>
+                </table>
+                <br/>
+                ${outofscopecharges_notes_html}
+              </div>
+            </div>
+          </div>
+        `;
+        highlightsColumn.insertAdjacentHTML("beforeend", final_outofscopecharges_html);
+      }
+      var rebates = tables["Rebates"];
+      if(rebates.length > 0){
+        var rebates_text = tables.RebatesNotes;
+        var rebates_notes_html = "";
+        if(rebates_text != undefined){
+          rebates_notes_html = converter.makeHtml(rebates_text.trim());
+        }
+        var rebates_html = "";
+        rebates.forEach(p=>{
+          let tr = `
+            <tr>
+              <td>${p.AnnualContractValue}</td>
+              <td>${p["RebateStepUp(%)"]}</td>
+              <td>${p.RebateStepUp}</td>
+              <td>${p.CumulativeRebate}</td>
+              <td>${p.AnnualisedTotalPostRebate}</td>
+              <td>${p["RebateOverall(%)"]}</td>
+            </tr>
+          `;
+          rebates_html += tr;
+        });
+        var final_rebates_html = `
+          <div class="row mt-2 card-layout">
+            <div class="e-card">
+              <div class="e-card-content" style="color:black">
+                <h2>Rebates</h2>
+                <table class="table table-bordered">
+                  <thead>
+                    <tr>
+                      <th>AnnualContractValue</th>
+                      <th>RebateStepUp(%)</th>
+                      <th>RebateStepUp</th>
+                      <th>CumulativeRebate</th>
+                      <th>AnnualisedTotalPostRebate</th>
+                      <th>RebateOverall(%)</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-group-divider">
+                    ${rebates_html}
+                  </tbody>
+                </table>
+                <br/>
+                ${rebates_notes_html}
+              </div>
+            </div>
+          </div>
+        `;
+        highlightsColumn.insertAdjacentHTML("beforeend", final_rebates_html);
+      }
+
+      var allhighlights = JSON.parse(data.allhighlights.match(/\{([^]+)\}/g)[0]);
+      Object.keys(allhighlights).forEach(key=>{
+        var key_html = converter.makeHtml(allhighlights[key])
+        var final_key_html = `
+        <div class="row mt-2 card-layout">
+          <div class="e-card">
+            <div class="e-card-content" style="color:black">
+              <h2>${key}</h2>
+              ${key_html}
+            </div>
+          </div>
+        </div>
+      `;
+      highlightsColumn.insertAdjacentHTML("beforeend", final_key_html);
+      });
+
+      contractHighlightsEle.style.display="";
+      Swal.fire({
+        title: 'updating RAG vector database..please wait',
+        allowOutsideClick: false,
+        didOpen: () => {
+            Swal.showLoading();
+        }
+      });
+      fetch('/createragdb',{
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          file_paths: file_paths,
+      })})
+      .then(res=>res.text())
+      .then(data=>{
+        Swal.close();
+      })
+    })
+    .catch(err=>{
+      Swal.close();
+      Swal.fire({
+        text: err,
+        icon: "error"});
+      });
+  }
+</script>
+<!-- Tabbed view -->
+<script>
+  var tabObj = new ej.navigations.Tab({
+    items: [
+      {
+        header: { text: "Contract Highlights" },
+        content: "#highlights",
+      },
+      {
+        header: { text: "Query the Contract" },
+        content: "#query",
+      },
+    ],
+  });
+  tabObj.appendTo("#defaultTab");
+</script>
+<!-- Timeline -->
+<script>
+  function generateTimeline(timelineData) {
+    let timelineObj = document.getElementById("timelineView");
+    timelineObj.innerHTML = "";
+    timelineData.forEach((x) => {
+      let timelineEntry = `<div class="entry">
+              <div class="title">
+                <h4>${x.Timestamp}</h4>
+              </div>
+              <div class="body">
+                <p>${x.EventType}</p>
+                <ul>
+                  <li>${x.EventDescription}</li>
+                </ul>
+              </div>
+            </div>`;
+
+      timelineObj.insertAdjacentHTML("afterbegin", timelineEntry);
+    });
+  }
+</script>
+<!-- Vendor and Company Details -->
+<script>
+  function renderVendorDetails(vendorDetails) {
+    Object.keys(vendorDetails).forEach((key) => {
+      let ele = document.getElementById(key);
+      ele.innerText = vendorDetails[key];
+    });
+  }
+  function renderCompanyDetails(companyDetails) {
+    Object.keys(companyDetails).forEach((key) => {
+      let ele = document.getElementById(key);
+      ele.innerText = companyDetails[key];
+    });
+  }
+</script>
+<!-- QnA Search -->
+<script>
+  let user = "{{ session['name'] }}";
+  var template =
+    '${if(chat!=="receiver")}' +
+    '<div class="settings" style="display:flex;">' +
+    '${if(avatar!=="")}' +
+    '<div id="image"><span class="e-avatar img1 e-avatar-circle">${avatar}</span></div>' +
+    "${else}" +
+    '<div id="image"><span class="${pic} img1 e-avatar e-avatar-circle"> </span></div>' +
+    "${/if}" +
+    '<div id="content">' +
+    '<div class="name">${text}</div>' +
+    '<div id="info">${contact}</div></div>' +
+    "</div>" +
+    "${else}" +
+    '<div class="settings2">' +
+    '${if(avatar!=="")}' +
+    '<div id="image2"><span class="e-avatar img2 e-avatar-circle">${avatar}</span></div>' +
+    "${else}" +
+    '<div id="image2"><span class="${pic} img2 e-avatar e-avatar-circle"> </span></div>' +
+    "${/if}" +
+    '<div id="content1">' +
+    '<div class="name1">${text}</div>' +
+    '<div id="info1">${contact}</div>' +
+    "</div>" +
+    "${/if}" +
+    "</div>";
+  var outlineTextbox = new ej.inputs.TextBox({
+    placeholder: "Enter your prompt here",
+    cssClass: "e-outline",
+    floatLabelType: "Auto",
+    width: "94%",
+  });
+  outlineTextbox.appendTo("#name");
+
+  //Define an array of JSON data
+  var dataSource = [
+    {
+      text: "EzyContract",
+      contact:
+        "Hello " +
+        user +
+        " , enter any query to know more details about your contract.",
+      id: "1",
+      avatar: "",
+      pic: "pic01",
+      chat: "receiver",
+    },
+  ];
+
+  var listObj = new ej.lists.ListView({
+    //Set defined data to dataSource property.
+    //Set the defined data to the dataSource property
+    dataSource: dataSource,
+    //Map the appropriate columns to the fields property
+    fields: { text: "text" },
+    //Set the width of the ListView
+    // width: "350px",
+    height: "75vh",
+    //Enable the header of the ListView
+    showHeader: true,
+    //Set the header title
+    // headerTitle: "Search your contract!!!",
+    //Set the customized template
+    template: template,
+  });
+
+  listObj.appendTo("#List");
+
+  var button = new ej.buttons.Button({
+    cssClass: `e-primary`,
+  });
+
+  // Render initialized button.
+  button.appendTo("#btn");
+
+  document.getElementById("btn").addEventListener("click", (e) => {
+    var user_prompt = document.getElementById("name").value;
+    let chatItem = [
+      {
+        text: user,
+        contact: user_prompt,
+        id: dataSource.length + 1,
+        avatar: "",
+        pic: "pic02",
+        chat: "sender",
+      },
+    ];
+    document.getElementById("List").ej2_instances[0].addItem(chatItem);
+    document.getElementById("name").value = "";
+    let spinnerId = "List_" + dataSource.length;
+    ej.popups.createSpinner({
+      target: document.getElementById(spinnerId),
+    });
+    // ej.popups.setSpinner({
+    //   template: '<div class="template">Evaluation in progress...</div>',
+    // });
+    ej.popups.showSpinner(document.getElementById(spinnerId));
+    fetch("/getpromptresponse?user_prompt=" + user_prompt)
+      .then((res) => {
+        if (res.ok) {
+          return res.text();
+        }
+        throw new Error("Something went wrong.");
+      })
+      .then((qry) => {
+        let responseItem = [
+          {
+            text: "EzyContract",
+            contact: "",
+            id: dataSource.length + 1,
+            avatar: "",
+            pic: "pic01",
+            chat: "receiver",
+          },
+        ];
+        document.getElementById("List").ej2_instances[0].addItem(responseItem);
+        var html = converter.makeHtml(qry);
+        let elementName = "#List_" + dataSource.length + " #content1 #info1";
+        let element = document.querySelector(elementName);
+        // $(elementName).html("");
+        element.innerHTML = html;
+        ej.popups.hideSpinner(document.getElementById(spinnerId));
+      })
+      .catch((error) => {
+        let responseItem = [
+          {
+            text: "EzyContract",
+            contact: "Some error occured..please try again",
+            id: dataSource.length + 1,
+            avatar: "",
+            pic: "pic01",
+            chat: "receiver",
+          },
+        ];
+        document.getElementById("List").ej2_instances[0].addItem(responseItem);
+        ej.popups.hideSpinner(document.getElementById(spinnerId));
+      });
+  });
+</script>
+{% endblock %}
