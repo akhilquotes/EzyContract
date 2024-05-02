@@ -1,0 +1,128 @@
+/* #container {
+    visibility: hidden;
+  }
+   */
+   #loader {
+    color: #008cff !important;
+    height: 40px !important;
+    width: 30% !important;
+    position: absolute !important;
+    font-family: "Helvetica Neue", "calibiri" !important;
+    font-size: 14px !important;
+    top: 45% !important;
+    left: 45% !important;
+  }
+  
+  #List {
+    margin: 0 auto !important;
+    border: 1px solid #ccc !important;
+  }
+  
+  #List .e-list-item {
+    height: auto !important;
+    cursor: pointer !important;
+  }
+  
+  #List .e-list-header .e-text {
+    font-family: sans-serif !important;
+    font-size: 18px !important;
+    line-height: 26px !important;
+  }
+  
+  #List #info,
+  #List .name {
+    font-size: 14px !important;
+    line-height: 20px !important;
+  }
+  
+  #List .name {
+    padding-top: 3px !important;
+    font-weight: 500 !important;
+    margin-left: 10px !important;
+     /* padding-left:150px !important; */
+  }
+  #List #info {
+    /* float: right !important; */
+    margin-left:10px !important;
+  }
+  .pic01 {
+    background-image: url("onlylogonew.png");
+  }
+  
+  .pic02 {
+    background-image: url("usericon.png");
+  }
+  
+  .pic03 {
+    background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/5.png");
+  }
+  
+  .pic04 {
+    background-image: url("https://ej2.syncfusion.com/demos/src/grid/images/2.png");
+  }
+  /* csslint ignore:start */
+  .img2 {
+    margin-left: 10px;
+    margin-top: 2px !important;
+    font-size: 13px;
+  }
+  
+  #List #content1 {
+    width: 94%;
+    background-color: #dcf1fa;
+    text-align: left;
+    display: inline-block;
+    margin: 5px;
+    
+  }
+  
+  #List #info1,
+  #List .name1 {
+    font-size: 14px;
+    line-height: 20px;
+    margin-left: 10px;
+  }
+  
+  #List .name1 {
+    padding-top: 3px;
+    font-weight: 500;
+  }
+  #List #content {
+      margin: 5px;
+      width: 94%;
+      /* margin-left: 994px; */
+      background-color: beige;
+      display:inline-block;
+      text-align: left;
+  }
+  #image {
+      float: left;
+      display: inline-block;
+  
+  }
+  #image2 {
+      float: left;
+      display: inline-block;
+  
+  }
+  .img1 {
+      margin-left: 10px;
+      margin-top: 2px !important;
+      font-size: 13px;
+  }
+  .e-listview .e-list-item {
+    padding: 0 !important;
+  }
+  .e-listview .e-list-header{
+    color: white !important;
+  }
+  .e-listview .e-list-header{
+    background: rgb(2, 120, 215) !important;
+  }
+  #List.e-listview .e-hover {
+    background-color: transparent;
+  }
+  .e-avatar{
+    background-color: white;
+  }
+  /* csslint ignore:end */
