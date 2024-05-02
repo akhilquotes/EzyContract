@@ -1,58 +1,40 @@
-# Cloud Run Hello World with Cloud Code
+# EzyContract
 
-"Hello World" is a [Cloud Run](https://cloud.google.com/run/docs) application that renders a simple webpage.
+"EzyContract" is a solution to optimize Contracts Management in Supply Chain.
 
-For details on how to use this sample as a template in Cloud Code, read the documentation for Cloud Code for [VS Code](https://cloud.google.com/code/docs/vscode/quickstart-cloud-run?utm_source=ext&utm_medium=partner&utm_campaign=CDR_kri_gcp_cloudcodereadmes_012521&utm_content=-) or [IntelliJ](https://cloud.google.com/code/docs/intellij/quickstart-cloud-run?utm_source=ext&utm_medium=partner&utm_campaign=CDR_kri_gcp_cloudcodereadmes_012521&utm_content=-).
+## About
 
-### Table of Contents
-* [Getting Started with VS Code](#getting-started-with-vs-code)
-* [Getting Started with IntelliJ](#getting-started-with-intellij)
-* [Sign up for User Research](#sign-up-for-user-research)
+* Although Medium to Large Enterprises have contract management systems, validating contracts for different clauses based on different business dynamics is still majorly a manual job.
 
----
-## Getting Started with VS Code
+  Eg: Implementing CPI clause, Rebates after a threshold spend with vendors.
 
-### Run the app locally with the Cloud Run Emulator
-1. Click on the Cloud Code status bar and select 'Run on Cloud Run Emulator'.  
-![image](./img/status-bar.png)
+* With 100s of customer and supplier contracts going through all of them manually to enforce contractual terms and there by increasing profitability is a challenging and manual task.     Hence, Enterprises miss out on potential prices increases to customers and discounts with suppliers.
 
-2. Use the Cloud Run Emulator dialog to specify your [builder option](https://cloud.google.com/code/docs/vscode/deploying-a-cloud-run-app#deploying_a_cloud_run_service). Cloud Code supports Docker, Jib, and Buildpacks. See the skaffold documentation on [builders](https://skaffold.dev/docs/pipeline-stages/builders/) for more information about build artifact types.  
-![image](./img/build-config.png)
-
-3. Click ‘Run’. Cloud Code begins building your image.
-
-4. View the build progress in the OUTPUT window. Once the build has finished, click on the URL in the OUTPUT window to view your live application.  
-![image](./img/cloud-run-url.png)
-
-5. To stop the application, click the stop icon on the Debug Toolbar.
+* According to a study on an average globally enterprises lose approximately 18% of the revenue  through poor contract management.
 
 ---
-## Getting Started with IntelliJ
+## Resolution To Complexity In Contract Management
 
-### Run the app locally with the Cloud Run Emulator
+#### Situation
 
-#### Define run configuration
+Medium to large enterprises are losing approximately 9% of Revenue through Revenue leakage and 9% of spend through cost leakage because of poor interpretation and enforcement.
 
-1. Click the Run/Debug configurations dropdown on the top taskbar and select 'Edit Configurations'.  
-![image](./img/edit-config.png)
+#### Complication
 
-2. Select 'Cloud Run: Run Locally' and specify your [builder option](https://cloud.google.com/code/docs/intellij/developing-a-cloud-run-app#defining_your_run_configuration). Cloud Code supports Docker, Jib, and Buildpacks. See the skaffold documentation on [builders](https://skaffold.dev/docs/pipeline-stages/builders/) for more information about build artifact types.  
-![image](./img/local-build-config.png)
+Until this point there isn’t a better way to go through contracts and enforce terms and conditions. Hence, some large  organizations are maintaining teams to review them. For most of the generic clauses traditional contract management software would suffice but for customized clauses human intervention is required.
 
-#### Run the application
-1. Click the Run/Debug configurations dropdown and select 'Cloud Run: Run Locally'. Click the run icon.  
-![image](./img/config-run-locally.png)
+#### Resolution
 
-2. View the build process in the output window. Once the build has finished, you will receive a notification from the Event Log. Click 'View' to access the local URLs for your deployed services.  
-![image](./img/local-success.png)
+With advancements in AI and LLM models, all contracts can be reviewed by LLMs and insights from them can be summarized and passed on to enforcement teams periodically to act.
 
 ---
-## Sign up for User Research
+## PROCESS FLOW OF EZYCONTRACT
 
-We want to hear your feedback!
+![image](https://github.com/akhilquotes/EzyContract/assets/120096234/c6605246-41eb-4e79-8acf-a16f5c10684b)
 
-The Cloud Code team is inviting our user community to sign-up to participate in Google User Experience Research. 
+---
+## Future RoadMap
 
-If you’re invited to join a study, you may try out a new product or tell us what you think about the products you use every day. At this time, Google is only sending invitations for upcoming remote studies. Once a study is complete, you’ll receive a token of thanks for your participation such as a gift card or some Google swag. 
+![Screenshot 2024-05-03 at 12 51 28 AM](https://github.com/akhilquotes/EzyContract/assets/120096234/3ae2eb10-3171-4495-89e6-67d439142fc6)
 
-[Sign up using this link](https://google.qualtrics.com/jfe/form/SV_4Me7SiMewdvVYhL?reserved=1&utm_source=In-product&Q_Language=en&utm_medium=own_prd&utm_campaign=Q1&productTag=clou&campaignDate=January2021&referral_code=UXbT481079) and answer a few questions about yourself, as this will help our research team match you to studies that are a great fit.
+
