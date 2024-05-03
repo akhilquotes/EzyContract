@@ -41,3 +41,13 @@ With advancements in AI and LLM models, all contracts can be reviewed by LLMs an
 4. **Access control** - Control authorization to different users based on their access level to information in organization
 5. **Recommendations on clauses to include** - Based on product, industry and various other factors giving recommendations on what clauses to include aiding in contract preparation
 
+## Testing Instructions
+- Download source code from !https://github.com/akhilquotes/EzyContract
+- To start the application, run python app.py from terminal
+- One can sign up or use below sample credentials to login to EzyContract
+      Email : testhacks@gmail.com
+      Password  : Testhacks@12
+- Once logged in, user is redirected to ContractHighlight page
+- Select a contract to get insights from. All highlights like Vendor details, Products etc.. can be seen under Highlights tab.
+- Additionally user can query the selected contract under Query Contract tab.
+- In contract upload page, user can upload new contract or any amendment to exixting contract can be uploaded as sub contract by selecting the parent contract.
