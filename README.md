@@ -35,6 +35,9 @@ With advancements in AI and LLM models, all contracts can be reviewed by LLMs an
 ---
 ## Future RoadMap
 
-![Screenshot 2024-05-03 at 12 51 28 AM](https://github.com/akhilquotes/EzyContract/assets/120096234/3ae2eb10-3171-4495-89e6-67d439142fc6)
-
+1. **Adding Customer Contracts** - Similar to vendor contracts customer side contracts can also be included
+2. **Integrating both customer and vendors contracts** - Instead of looking at contracts in silos on vendor and customer side. Integrating both will provide combined profitable opportunities
+3. **Alerts based on spend and revenue data** - Integrating with ERP, Spend or Revenue systems providing alerts on discounts, rebates or price increases to prevent leakages
+4. **Access control** - Control authorization to different users based on their access level to information in organization
+5. **Recommendations on clauses to include** - Based on product, industry and various other factors giving recommendations on what clauses to include aiding in contract preparation
 
