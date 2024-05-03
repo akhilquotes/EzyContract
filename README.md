@@ -45,7 +45,7 @@ With advancements in AI and LLM models, all contracts can be reviewed by LLMs an
 - Download source code from !https://github.com/akhilquotes/EzyContract
 - To start the application, run python app.py from terminal
 - One can sign up or use below sample credentials to login to EzyContract
-      Email : testhacks@gmail.com
+      Email : johndoe@gmail.com
       Password  : Testhacks@12
 - Once logged in, user is redirected to ContractHighlight page
 - Select a contract to get insights from. All highlights like Vendor details, Products etc.. can be seen under Highlights tab.
